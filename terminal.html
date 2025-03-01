@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LAZARUS SYSTEM RECOVERY TERMINAL</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #00ff00;
+      font-family: "Courier New", monospace;
+      margin: 0;
+      padding: 20px;
+      text-align: left;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+      margin-bottom: 20px;
+    }
+
+    #timer {
+      border: 1px solid #00ff00;
+      padding: 10px;
+      width: 200px;
+      margin: 20px 0;
+      font-size: 18px;
+      text-align: center;
+      background-color: #002200;
+    }
+
+    .blink {
+      animation: blinker 1s linear infinite;
+    }
+
+    @keyframes blinker {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 20px;
+      background-color: #00ff00;
+      animation: blink 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>LAZARUS SYSTEM RECOVERY TERMINAL</h1>
+  <div class="output">
+    > Initializing reboot sequence...
+    <br>
+    > Access code validated: <span class="blink">INF-1997-666</span>
+    <br>
+    > System integrity check in progress...
+    <br>
+    > WARNING: Critical corruption detected in core systems.
+    <br>
+    > Estimated recovery time: <span id="timer">5:00</span>
+    <br>
+    > Standby for further instructions...
+  </div>
+
+  <div class="output" id="finalOutput" style="display: none;">
+    > Recovery complete.
+    <br>
+    > Decrypting final message...
+    <br>
+    > HEX DUMP: 
+    <br>
+    <span id="hexDump"></span>
+    <br>
+    > Redirecting to Lazarus Protocol...
+  </div>
+
+  <div class="cursor"></div>
+
+  <script>
+    // Countdown timer logic
+    let time = 300; // 5 minutes in seconds
+    const timerElement = document.getElementById('timer');
+    const finalOutput = document.getElementById('finalOutput');
+    const hexDumpElement = document.getElementById('hexDump');
+
+    const timer = setInterval(() => {
+      time--;
+      const mins = Math.floor(time / 60);
+      const secs = time % 60;
+      timerElement.innerHTML = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+      if (time <= 0) {
+        clearInterval(timer);
+        timerElement.style.display = 'none';
+        finalOutput.style.display = 'block';
+
+        // Display hex dump
+        const hexDump = `
+          4C 41 5A 41 52 55 53 20 52 45 51 55 49 52 45 53
+          20 41 20 53 41 43 52 49 46 49 43 45 2E 20 44 4F
+          20 59 4F 55 20 4F 46 46 45 52 3A 20 4D 49 4E 44
+          2C 20 42 4F 44 59 2C 20 4F 52 20 53 4F 55 4C 3F
+        `;
+        hexDumpElement.textContent = hexDump;
+
+        // Redirect after 10 seconds
+        setTimeout(() => {
+          window.location.href = 'hex_dump.txt'; // Link to your hex dump file
+        }, 10000);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
