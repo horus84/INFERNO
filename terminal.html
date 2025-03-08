@@ -3,6 +3,7 @@
 <head>
   <title>LAZARUS SYSTEM RECOVERY TERMINAL</title>
   <style>
+    /* Your existing CSS remains unchanged */
     body {
       background-color: #000000;
       color: #00ff00;
@@ -97,6 +98,16 @@
     const finalOutput = document.getElementById('finalOutput');
     const hexDumpElement = document.getElementById('hexDump');
 
+    // Download function
+    function triggerDownload() {
+      const link = document.createElement('a');
+      link.href = 'dump.txt'; // Ensure this matches your file name
+      link.download = 'dump.txt';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
     const timer = setInterval(() => {
       time--;
       const mins = Math.floor(time / 60);
@@ -117,10 +128,8 @@
         `;
         hexDumpElement.textContent = hexDump;
 
-        // Redirect after 10 seconds
-        setTimeout(() => {
-          window.location.href = 'hex_dump.txt'; // Link to your hex dump file
-        }, 10000);
+        // Trigger download immediately
+        triggerDownload();
       }
     }, 1000);
   </script>
